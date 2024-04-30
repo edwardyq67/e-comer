@@ -22,28 +22,30 @@ const Card: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const newData: Product[] = [];
-      if (card.data?.[0]?.products) {
-        for (let i = 0; i < card.data[0].products.length; i++) {
-          try {
+      try {
+        const newData: Product[] = await Promise.all(
+          card.data?.[0]?.products?.map(async (productItem) => {
             const response = await axios.get<Product>(
-              `https://fakestoreapi.com/products/${card.data?.[0]?.products[i]?.productId}`
+              `https://fakestoreapi.com/products/${productItem.productId}`
             );
-            newData.push({
+            return {
               ...response.data,
-              cantidad: card.data[0].products[i]?.quantity,
-            });
-          } catch (error) {
-            console.error("Error fetching product:", error);
-          }
-        }
+              cantidad: productItem.quantity,
+            };
+          }) || []
+        );
         setDocumentoProduct(newData);
+      } catch (error) {
+        console.error("Error fetching products:", error);
       }
     };
-
-    fetchData();
+  
+    if (card.data && card.data.length > 0) {
+      fetchData();
+    }
   }, [card]);
-
+  
+console.log(card.data?.[0])
   const handleCantidadChange = (index: number, newValue: string) => {
     setDocumentoProduct((prevData) => {
       const updatedData = [...prevData];
@@ -68,7 +70,7 @@ const Card: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto pt-[8em] px-2 h-[100vh]">
+    <div className="container mx-auto pt-[8em] px-2 min-h-[100vh]">
       <div className="h-full w-full rounded-md md:rounded-lg p-5 md:p-10 mb-5">
         <table className="hidden md:table md:w-full text-sm text-left rtl:text-right text-white overflow-y-auto">
           <thead className="text-center text-xs text-white uppercase bg-[#75C470]">

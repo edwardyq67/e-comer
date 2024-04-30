@@ -17,15 +17,13 @@ const Shop: React.FC = () => {
     dispatch(getShopProduct());
   }, []);
   const navigate = useNavigate();
-  const categorySet = new Set();
+  const categorySet = new Set<string>();
 
   const reinicio = () => {
     window.location.reload();
   };
-  for (let i = 0; i < count.data.length; i++) {
-    const valor = count.data[i].category;
-    categorySet.add(valor);
-  }
+  count.data.forEach(({ category }) => categorySet.add(category));
+  const categoriasUnicas: string[] = [...categorySet];
   const datos = count.data
     .filter(
       ({ category }) =>
@@ -40,7 +38,7 @@ const Shop: React.FC = () => {
       ({ price }) =>
         valueRangue === "" || parseInt(price) <= parseInt(valueRangue)
     );
-  const categoriasUnicas = Array.from(categorySet);
+
   //   const categiaSin=Array.from(new Set(count))
   const charactersPerPage = 12;
   const lastCharacterIndex = page * charactersPerPage; //15;
@@ -55,7 +53,7 @@ const Shop: React.FC = () => {
   for (let i = 1; i <= totalPgaginas; i++) {
     pagNumber.push(i);
   }
-
+ 
   return (
     <div className="container mx-auto pt-[8em] px-2">
       <div className="h-full w-full  rounded-md md:rounded-lg bg-[#C6D8C0] p-5 md:p-10 mb-5">
@@ -107,7 +105,7 @@ const Shop: React.FC = () => {
               type="range"
               value={valueRangue}
               onChange={(e) => setVAlueRangue(e.target.value)}
-              style={{ background: '#75C470' }}
+              style={{ background: "#75C470" }}
             />
           </div>
         </div>
@@ -173,15 +171,16 @@ const Shop: React.FC = () => {
                 }}
               >
                 <div className="grid grid-cols-4 md:gap-2 gap-4">
-                  {categoriasUnicas.map((res) => (
+                  {categoriasUnicas.map((item, index) => (
                     <button
-                      onClick={() => setCategoria(res)}
-                      key={res.id}
-                      className=" text-[1.1em] col-span-2  md:col-span-1 text-center cursor-pointer md:mx-0 mx-auto w-[150px] rounded-lg  text-white bottom-1 py-2 px-3 bg-[#75C470] duration-500 hover:bg-black transition-all "
+                      onClick={() => setCategoria(item)}
+                      key={index} // Utilizar el índice como clave única
+                      className="text-[1.1em] col-span-2 md:col-span-1 text-center cursor-pointer md:mx-0 mx-auto w-[150px] rounded-lg text-white bottom-1 py-2 px-3 bg-[#75C470] duration-500 hover:bg-black transition-all"
                     >
-                      {res}
+                      {item}
                     </button>
                   ))}
+
                   <button
                     onClick={() => reinicio()}
                     className=" text-[1.1em] col-span-2  md:col-span-1 text-center cursor-pointer md:mx-0 mx-auto w-[150px] rounded-lg  text-white bottom-1 py-2 px-3 bg-[#75C470] duration-500 hover:bg-black transition-all "
