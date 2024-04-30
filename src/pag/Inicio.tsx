@@ -70,20 +70,7 @@ const Inicio: React.FC = () => {
   const n = 8;
   const navigate = useNavigate();
   const seisUltimos = count.data.slice(-n);
-  const sectionStyle = {
-    width: "",
-    height: "40vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column",
-    backgroundImage: `url(${sentado})`,
-    backgroundPosition: "center center",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    backgroundAttachment: "fixed",
-    color: "#fff",
-  };
+
   return (
     <div className="grid gap-[10vh] inicio text-[1.2em] mb-20">
       <Swiper
@@ -212,12 +199,25 @@ const Inicio: React.FC = () => {
           <h4>JUAN CARLOS</h4>
         </div>
       </div>
-      <section style={sectionStyle}>
+      <div style={{
+  width: "",
+  height: "40vh",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  flexDirection: "column",
+  backgroundImage: `url(${sentado})`,
+  backgroundPosition: "center center",
+  backgroundRepeat: "no-repeat",
+  backgroundSize: "cover",
+  backgroundAttachment: "fixed",
+  color: "#fff",
+}}>
         <div
           className="w-full h-full"
           style={{ background: "rgba(0,0,0,.5)" }}
         ></div>
-      </section>
+      </div>
       <div className=" container mx-auto grid grid-cols-3 gap-[5vh] text-center ">
         <div className="gap-2 flex col-span-3 lg:col-span-1 items-center justify-center">
           <i className="bg-[#75C470] rounded-full w-[60px] flex items-center justify-center text-white text-[1.9em] h-[60px] row-span-2 fa-brands fa-shopify"></i>

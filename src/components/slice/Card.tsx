@@ -50,7 +50,9 @@ export const card = createSlice({
     name: 'conocimiento',
     initialState,
     reducers: {
-        // Define los reductores síncronos aquí si es necesario
+        extraReducer(){
+            
+        }
     },
     extraReducers: (builder) => {
         // Maneja las acciones de éxito y fracaso para getCard

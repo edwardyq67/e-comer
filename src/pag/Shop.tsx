@@ -17,7 +17,7 @@ const Shop: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [categoria, setCategoria] = useState("");
-  const [valueRangue, setVAlueRangue] = useState("");
+  const [valueRange, setValueRange] = useState("");
   const [page, setPage] = useState(1);
 
   const count = useAppSelector((state) => state.shop);
@@ -30,27 +30,27 @@ const Shop: React.FC = () => {
 
   const categorySet = new Set<string>();
 
-  const reinicio = () => {
+  const reset = () => {
     window.location.reload();
   };
 
   for (let i = 0; i < count.data.length; i++) {
-    const valor = count.data[i].category;
-    categorySet.add(valor);
+    const value = count.data[i].category;
+    categorySet.add(value);
   }
 
-  const datos = count.data
+  const filteredData = count.data
     .filter(({ category }) => !categoria || category.toLowerCase().includes(categoria.toLowerCase()))
     .filter(({ title }) => !searchText || title.toLowerCase().includes(searchText.toLowerCase()))
-    .filter(({ price }) => !valueRangue || parseInt(price) <= parseInt(valueRangue));
+    .filter(({ price }) => !valueRange || parseInt(price) <= parseInt(valueRange));
 
   const charactersPerPage = 12;
   const lastCharacterIndex = page * charactersPerPage;
   const firstCharacterIndex = lastCharacterIndex - charactersPerPage;
 
-  const charactersPaginated = datos.slice(firstCharacterIndex, lastCharacterIndex);
-  const totalPgaginas = Math.ceil(datos.length / charactersPerPage);
-  const pagNumber = Array.from({ length: totalPgaginas }, (_, i) => i + 1);
+  const charactersPaginated = filteredData.slice(firstCharacterIndex, lastCharacterIndex);
+  const totalPages = Math.ceil(filteredData.length / charactersPerPage);
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
     <div className="container mx-auto pt-[8em] px-2">
@@ -62,10 +62,11 @@ const Shop: React.FC = () => {
               Search
             </label>
             <input
-              className="col-span-2"
+              className="col-span-2 py-1 px-2 rounded-md outline-none"
               id="searchInput"
               type="text"
               placeholder="Mens Casual"
+              
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
             />
@@ -73,15 +74,15 @@ const Shop: React.FC = () => {
           {/* Rango de precio */}
           <div className="grid grid-cols-3 col-span-2 md:col-span-1">
             <label htmlFor="priceRange" className="col-span-1 text-[#75C470] font-bold text-lg">
-              Price {">"}{valueRangue}
+              Price {">"}{valueRange}
             </label>
             <input
               id="priceRange"
               type="range"
               min={1}
               max={1000}
-              value={valueRangue}
-              onChange={(e) => setVAlueRangue(e.target.value)}
+              value={valueRange}
+              onChange={(e) => setValueRange(e.target.value)}
               style={{ background: "#75C470" }}
               className="col-span-2"
             />
@@ -119,7 +120,7 @@ const Shop: React.FC = () => {
                     </button>
                   ))}
                   <button
-                    onClick={() => reinicio()}
+                    onClick={() => reset()}
                     className="col-span-2 md:col-span-1 text-center cursor-pointer md:mx-0 mx-auto w-[150px] rounded-lg text-white bottom-1 py-2 px-3 bg-[#75C470] duration-500 hover:bg-black transition-all"
                   >
                     all products
@@ -158,7 +159,7 @@ const Shop: React.FC = () => {
                 Previous
               </button>
             </li>
-            {pagNumber.map((number) => (
+            {pageNumbers.map((number) => (
               <li key={number}>
                 <button onClick={() => setPage(number)} className="flex items-center justify-center px-3 h-8 bg-[#75C470] border-r-2 border-white text-white hover:bg-[#8BD27B]">
                   {number}
@@ -166,7 +167,7 @@ const Shop: React.FC = () => {
               </li>
             ))}
             <li>
-              <button onClick={() => setPage(totalPgaginas)} className="flex items-center justify-center px-3 h-8 leading-tight bg-[#75C470] text-white hover:bg-[#8BD27B] rounded-r-lg">
+              <button onClick={() => setPage(totalPages)} className="flex items-center justify-center px-3 h-8 leading-tight bg-[#75C470] text-white hover:bg-[#8BD27B] rounded-r-lg">
                 Next
               </button>
             </li>

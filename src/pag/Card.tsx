@@ -21,6 +21,7 @@ const Card: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    
     const fetchData = async () => {
       const newData: Product[] = [];
       if (card.data?.[0]?.products) {
