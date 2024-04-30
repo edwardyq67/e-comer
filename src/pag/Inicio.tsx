@@ -46,7 +46,7 @@ const imagen = [
   },
 ];
 const list = imagen.map((imgs) => (
-  <SwiperSlide className="h-full relative ">
+  <SwiperSlide key={imgs.imagen} className="h-full relative ">
     <img className="" src={imgs.imagen} alt="" />
     <div
       className="inf absolute inset-0 "

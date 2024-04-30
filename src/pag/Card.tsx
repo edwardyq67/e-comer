@@ -21,7 +21,6 @@ const Card: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    
     const fetchData = async () => {
       const newData: Product[] = [];
       if (card.data?.[0]?.products) {
@@ -48,7 +47,7 @@ const Card: React.FC = () => {
   const handleCantidadChange = (index: number, newValue: string) => {
     setDocumentoProduct((prevData) => {
       const updatedData = [...prevData];
-      updatedData[index].cantidad = parseInt(newValue);
+      updatedData[index].cantidad = parseInt(newValue) || 0; // Ensure it's a number or set to 0
       return updatedData;
     });
   };
@@ -70,9 +69,9 @@ const Card: React.FC = () => {
 
   return (
     <div className="container mx-auto pt-[8em] px-2 h-[100vh]">
-      <div className="h-full w-full  rounded-md md:rounded-lg p-5 md:p-10 mb-5">
+      <div className="h-full w-full rounded-md md:rounded-lg p-5 md:p-10 mb-5">
         <table className="hidden md:table md:w-full text-sm text-left rtl:text-right text-white overflow-y-auto">
-          <thead className="text-center text-xs text-white uppercase  bg-[#75C470] ">
+          <thead className="text-center text-xs text-white uppercase bg-[#75C470]">
             <tr>
               <th scope="col" className="px-6 py-3">
                 imagen
@@ -115,14 +114,20 @@ const Card: React.FC = () => {
                     type="number"
                     className="outline-none w-20 p-2 rounded-md"
                     value={product.cantidad}
-                    onChange={(e) => handleCantidadChange(index, e.target.value)}
+                    onChange={(e) =>
+                      handleCantidadChange(index, e.target.value)
+                    }
                   />
                 </td>
-                <td className="px-6 py-4">{product.price * product.cantidad}<label className="text-[1.4em] ml-1">$</label></td>
+                <td className="px-6 py-4">
+                  {product.price * product.cantidad}
+                  <label className="text-[1.4em] ml-1">$</label>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
+        {/* Mobile view */}
         <div className="md:hidden grid w-full">
           {documentoProduct.map((product, index) => (
             <div
@@ -150,11 +155,17 @@ const Card: React.FC = () => {
                   type="number"
                   className="outline-none w-20 p-1 border-2 rounded-md border-[#75C470] flex"
                   value={product.cantidad}
-                  onChange={(e) => handleCantidadChange(index, e.target.value)}
+                  onChange={(e) =>
+                    handleCantidadChange(index, e.target.value)
+                  }
                 />
               </td>
               <td className="px-6 py-4 flex justify-between">
-                <b>Subtotal</b> <label>{product.price * product.cantidad}<label className="text-[1.4em] ml-1">$</label></label>
+                <b>Subtotal</b>{" "}
+                <label>
+                  {product.price * product.cantidad}
+                  <label className="text-[1.4em] ml-1">$</label>
+                </label>
               </td>
             </div>
           ))}
