@@ -18,7 +18,7 @@ const Card: React.FC = () => {
 
   useEffect(() => {
     dispatch(getCard());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,7 +26,7 @@ const Card: React.FC = () => {
       if (card.data?.[0]?.products) {
         for (let i = 0; i < card.data[0].products.length; i++) {
           try {
-            const response = await axios.get(
+            const response = await axios.get<Product>(
               `https://fakestoreapi.com/products/${card.data?.[0]?.products[i]?.productId}`
             );
             newData.push({
@@ -70,7 +70,6 @@ const Card: React.FC = () => {
   return (
     <div className="container mx-auto pt-[8em] px-2 h-[100vh]">
       <div className="h-full w-full  rounded-md md:rounded-lg p-5 md:p-10 mb-5">
-        {/* Tabla para pantallas grandes */}
         <table className="hidden md:table md:w-full text-sm text-left rtl:text-right text-white overflow-y-auto">
           <thead className="text-center text-xs text-white uppercase  bg-[#75C470] ">
             <tr>
@@ -123,7 +122,6 @@ const Card: React.FC = () => {
             ))}
           </tbody>
         </table>
-        {/* Grid para pantallas pequeñas */}
         <div className="md:hidden grid w-full">
           {documentoProduct.map((product, index) => (
             <div
@@ -160,7 +158,6 @@ const Card: React.FC = () => {
             </div>
           ))}
         </div>
-        {/* Botón de actualización del carrito */}
         <div className="w-full flex justify-end py-2">
           <button
             onClick={() => updateCart()}
