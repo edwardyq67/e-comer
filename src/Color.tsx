@@ -1,0 +1,1 @@
+export const colorText='#75C470'
