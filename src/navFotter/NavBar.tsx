@@ -18,15 +18,15 @@ function NavBar() {
   return (
     <div className={`flex justify-center w-full z-50 transition-all duration-200 fixed ${isOpen ? "h-[20em]" : "h-[4.5em]"}`} style={{ background:"rgba(0,0,0,.5)"}}>
       <div className="container mx-auto z-50 fixed p-3 flex justify-between items-center">
-        <a href="/" className="text-[2em] font-bold text-[#75C470] cursor-pointer">Plant Shop</a>
+        <a onClick={()=>navigate("/")} className="text-[2em] font-bold text-[#75C470] cursor-pointer">Plant Shop</a>
         <nav className={isOpen ? "flex" : "hidden md:flex"}>
           <ul className="gap-2 md:bg-transparent flex bg-transparent absolute md:relative flex-col md:flex-row w-full shadow md:shadow-none text-center top-12 left-0 md:top-0 md:flex">
             {people.map((person, index) => (
               <a onClick={()=>navigate(person[1])} key={index} className="px-3 text-white py-2 cursor-pointer rounded hover:text-[#75C470] hover:bg-none md:hover:bg-white">{person[0]}</a>
             ))} 
-            <a href="/card" className="text-[#75C470] md:mb-0 mb-2 mx-4 flex text-center justify-center items-center space-x-1 cursor-pointer hover:text-white">
+            <a onClick={()=>navigate("/card")} className="text-[#75C470] md:mb-0 mb-2 mx-4 flex text-center justify-center items-center space-x-1 cursor-pointer hover:text-white">
               
-              <i  onClick={() => navigate("/card")} className="fa-solid fa-cart-shopping"></i>
+              <i  o className="fa-solid fa-cart-shopping"></i>
             </a>
             {
               (localStorage.getItem('token'))?<div className="ml-2 flex text-center justify-center items-center text-[#75C470] space-x-1 cursor-pointer hover:text-white">
