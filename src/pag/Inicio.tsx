@@ -7,7 +7,7 @@ import img4 from "../img/forest-1072828_1920.jpg";
 import img5 from "../img/mountains-1761292_1920.jpg";
 import sentado from "../img/sentado.webp";
 // Import Swiper styles
-import "Swiper/css";
+import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import conocemeHome from "../img/conocemeHome.jpg";
