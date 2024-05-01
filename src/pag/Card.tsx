@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../components/redux/hooks";
 import { getCard } from "../components/slice/Card";
 import axios from "axios";
 
+// Definir un tipo para la estructura de datos del producto
 interface Product {
   id: number;
   title: string;
@@ -23,29 +24,30 @@ const Card: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const newData: Product[] = await Promise.all(
-          card.data?.[0]?.products?.map(async (productItem) => {
-            const response = await axios.get<Product>(
-              `https://fakestoreapi.com/products/${productItem.productId}`
-            );
-            return {
-              ...response.data,
-              cantidad: productItem.quantity,
-            };
-          }) || []
-        );
-        setDocumentoProduct(newData);
+        const products = card.data[0].products as { productId: number; quantity: number }[];
+        if (products) {
+          const newData: Product[] = await Promise.all(
+            products.map(async (productItem) => {
+              const response = await axios.get<Product>(
+                `https://fakestoreapi.com/products/${productItem.productId}`
+              );
+              return {
+                ...response.data,
+                cantidad: productItem.quantity,
+              };
+            })
+          );
+          setDocumentoProduct(newData);
+        }
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     };
-  
-    if (card.data && card.data.length > 0) {
-      fetchData();
-    }
+
+    fetchData();
   }, [card]);
   
-console.log(card.data?.[0])
+console.log(card.data[0].products)
   const handleCantidadChange = (index: number, newValue: string) => {
     setDocumentoProduct((prevData) => {
       const updatedData = [...prevData];
