@@ -12,6 +12,9 @@ interface Product {
   cantidad: number;
 }
 
+// Define la interfaz para el carrito de compras
+
+
 const Card: React.FC = () => {
   const [documentoProduct, setDocumentoProduct] = useState<Product[]>([]);
   const card = useAppSelector((state) => state.card);
@@ -20,14 +23,17 @@ const Card: React.FC = () => {
   useEffect(() => {
     dispatch(getCard());
   }, [dispatch]);
+
   useEffect(() => {
-    const cardProduct = card.data[0]?.products as { productId: number; quantity: number }[] | undefined;
     const fetchData = async () => {
       try {
-        const products = cardProduct as { productId: number; quantity: number }[];
-        if (cardProduct) {
+        // Verifica si card.data tiene al menos un elemento y si existe la propiedad products
+        if (card.data.length > 0 && "products" in card.data[0]) {
+          // Accede directamente a la propiedad products después de verificar su existencia
+          const cardProducts = card.data[0].products as { productId: number; quantity: number }[];
+          // Itera sobre los productos del carrito y realiza solicitudes para obtener los detalles de cada producto
           const newData: Product[] = await Promise.all(
-            products.map(async (productItem) => {
+            cardProducts.map(async (productItem) => {
               const response = await axios.get<Product>(
                 `https://fakestoreapi.com/products/${productItem.productId}`
               );
@@ -46,7 +52,6 @@ const Card: React.FC = () => {
 
     fetchData();
   }, [card]);
-  
 
   const handleCantidadChange = (index: number, newValue: string) => {
     setDocumentoProduct((prevData) => {
