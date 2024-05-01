@@ -20,12 +20,12 @@ const Card: React.FC = () => {
   useEffect(() => {
     dispatch(getCard());
   }, [dispatch]);
-
   useEffect(() => {
+    const cardProduct = card.data[0]?.products as { productId: number; quantity: number }[] | undefined;
     const fetchData = async () => {
       try {
-        const products = card.data[0].products as { productId: number; quantity: number }[];
-        if (products) {
+        const products = cardProduct as { productId: number; quantity: number }[];
+        if (cardProduct) {
           const newData: Product[] = await Promise.all(
             products.map(async (productItem) => {
               const response = await axios.get<Product>(
@@ -47,7 +47,7 @@ const Card: React.FC = () => {
     fetchData();
   }, [card]);
   
-console.log(card.data[0].products)
+
   const handleCantidadChange = (index: number, newValue: string) => {
     setDocumentoProduct((prevData) => {
       const updatedData = [...prevData];
