@@ -22,12 +22,12 @@ function NavBar() {
         <nav className={isOpen ? "flex" : "hidden md:flex"}>
           <ul className="gap-2 md:bg-transparent flex bg-transparent absolute md:relative flex-col md:flex-row w-full shadow md:shadow-none text-center top-12 left-0 md:top-0 md:flex">
             {people.map((person, index) => (
-              <a href={person[1]} key={index} className="px-3 text-white py-2 cursor-pointer rounded hover:text-[#75C470] hover:bg-none md:hover:bg-white">{person[0]}</a>
+              <a onClick={()=>navigate(person[1])} key={index} className="px-3 text-white py-2 cursor-pointer rounded hover:text-[#75C470] hover:bg-none md:hover:bg-white">{person[0]}</a>
             ))} 
-            <div className="text-[#75C470] md:mb-0 mb-2 mx-4 flex text-center justify-center items-center space-x-1 cursor-pointer hover:text-white">
+            <a href="/card" className="text-[#75C470] md:mb-0 mb-2 mx-4 flex text-center justify-center items-center space-x-1 cursor-pointer hover:text-white">
               
               <i  onClick={() => navigate("/card")} className="fa-solid fa-cart-shopping"></i>
-            </div>
+            </a>
             {
               (localStorage.getItem('token'))?<div className="ml-2 flex text-center justify-center items-center text-[#75C470] space-x-1 cursor-pointer hover:text-white">
               <i onClick={out} className="fa-solid fa-right-from-bracket"></i>
