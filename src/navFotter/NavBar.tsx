@@ -26,7 +26,7 @@ function NavBar() {
             ))} 
             <a onClick={()=>navigate("/card")} className="text-[#75C470] md:mb-0 mb-2 mx-4 flex text-center justify-center items-center space-x-1 cursor-pointer hover:text-white">
               
-              <i  o className="fa-solid fa-cart-shopping"></i>
+              <i  className="fa-solid fa-cart-shopping"></i>
             </a>
             {
               (localStorage.getItem('token'))?<div className="ml-2 flex text-center justify-center items-center text-[#75C470] space-x-1 cursor-pointer hover:text-white">
